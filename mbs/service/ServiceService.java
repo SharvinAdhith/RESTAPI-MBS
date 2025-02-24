@@ -1,14 +1,16 @@
 package com.example.mbs.service;
 
-import com.example.mbs.entity.ServiceBH;
-import com.example.mbs.repository.ServiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import com.example.mbs.entity.ServiceBH;
+import com.example.mbs.repository.ServiceRepository;
 
 @Service
 public class ServiceService {
@@ -37,8 +39,12 @@ public class ServiceService {
         serviceRepository.deleteById(id);
     }
 
-    public Page<ServiceBH> getServicesByPage(int page, int size, String sortBy) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        public Page<ServiceBH> getServicesByPage(int page, int size){
+        Pageable pageable=PageRequest.of(page, size);
         return serviceRepository.findAll(pageable);
+    }
+
+    public List<ServiceBH> getServicesSorting(){
+        return serviceRepository.findAll(Sort.by("servid").descending());
     }
 }

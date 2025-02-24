@@ -1,6 +1,9 @@
 package com.example.mbs.entity;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-// import jakarta.persistence.*;
 
 @Entity
 @Table(name = "boat_house")
@@ -31,18 +33,19 @@ public class BoatHouse {
     private Owner owner;
 
     @OneToMany(mappedBy = "boatHouse", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Room> rooms;
 
     @OneToMany(mappedBy = "boatHouse", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Booking> bookings;
 
-    @OneToMany(mappedBy = "reserveboatHouse", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Booking> reservations;  // Renamed to avoid confusion
+
 
     public BoatHouse() {}
 
     public BoatHouse(int id, String name, String location, String amenities, Owner owner, 
-                     List<Booking> bookings, List<Booking> reservations, List<Room> rooms) {
+                     List<Booking> bookings, List<Room> rooms) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -50,7 +53,6 @@ public class BoatHouse {
         this.owner = owner;
         this.rooms = rooms;
         this.bookings = bookings;
-        this.reservations = reservations;
     }
 
     public int getId(){
@@ -99,13 +101,13 @@ public class BoatHouse {
         this.bookings = bookings;
     }
 
-    public List<Booking> getReserveboatHouse(){
-        return reservations;
-    }
+    // public List<Booking> getReserveboatHouse(){
+    //     return reservations;
+    // }
 
-    public void setReserveboatHouse(List<Booking> reserveboatHouse){
-        this.reservations = reserveboatHouse;
-    }
+    // public void setReserveboatHouse(List<Booking> reserveboatHouse){
+    //     this.reservations = reserveboatHouse;
+    // }
 
     public List<Room> getRooms(){
         return rooms; 

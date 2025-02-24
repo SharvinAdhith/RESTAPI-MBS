@@ -13,5 +13,6 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int deptId;
     private String name;
+    private String deptname;
     private String deptHead;
 }

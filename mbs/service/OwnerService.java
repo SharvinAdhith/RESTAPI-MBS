@@ -53,8 +53,11 @@
 // }
 package com.example.mbs.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,6 +73,10 @@ public class OwnerService {
     @Autowired
     private OwnerRepository ownerRepository;
 
+     public List<Owner> getAllOwners() {
+        return ownerRepository.findAll();
+    }
+
     // Method to save an Owner
     @Transactional
     public void saveOwner(Owner owner) {
@@ -84,5 +91,9 @@ public class OwnerService {
     public Owner updateOwnerDetails(int id, BoatHouse boatHouse){
         boatHouse.setID(id);
         return ownerRepository.save(boatHouse);
+    }
+
+    public List<Owner> sortByOwner(){
+        return ownerRepository.findAll(Sort.by("id").descending());
     }
 }

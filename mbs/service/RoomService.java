@@ -1,15 +1,16 @@
 package com.example.mbs.service;
 
-import com.example.mbs.entity.Room;
-import com.example.mbs.exception.ResourceNotFoundException;
-import com.example.mbs.repository.RoomRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import com.example.mbs.entity.Room;
+import com.example.mbs.exception.ResourceNotFoundException;
+import com.example.mbs.repository.RoomRepository;
 
 @Service
 public class RoomService {
@@ -40,12 +41,15 @@ public class RoomService {
         return "Successfully deleted the room details";
     }
 
-    public Page<Room> getRoomsByPage(int page, int size, String sortBy) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+    public Page<Room> getRoomsByPage(int page, int size){
+        Pageable pageable=PageRequest.of(page, size);
         return roomRepository.findAll(pageable);
     }
 
     public List<Room> getRoomsByCategory(String category) {
         return roomRepository.findByCategory(category);
+    }
+    public List<Room> sortByRoom(){
+        return roomRepository.findAll(Sort.by("roomno").ascending());
     }
 }

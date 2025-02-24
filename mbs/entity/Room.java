@@ -1,8 +1,22 @@
 package com.example.mbs.entity;
 
 import java.util.List;
-import jakarta.persistence.*;
-import lombok.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
@@ -29,8 +43,9 @@ public class Room {
     
     @ManyToOne
     @JoinColumn(name = "boathouse_id") 
-    private BoatHouse boatHouse;  // This is fine
+    private BoatHouse boatHouse;  
     
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Booking> bookings;
 }

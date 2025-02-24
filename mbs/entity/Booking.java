@@ -1,43 +1,56 @@
 package com.example.mbs.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private LocalDate startDate;
+
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private LocalDate endDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
+    @JsonIgnore
     private Room room;
 
     @ManyToOne
     @JoinColumn(name = "boathouse_id")
+    @JsonIgnore
     private BoatHouse boatHouse;  // Main BoatHouse
-
-    @ManyToOne
-    @JoinColumn(name = "reserve_boathouse_id")
-    private BoatHouse reserveboatHouse;  // Reserved BoatHouse
 
     public Booking() {}
 
-    public Booking(int id, LocalDate startDate, LocalDate endDate, User user, BoatHouse boatHouse, BoatHouse reserveboatHouse) {
+    public Booking(int id, LocalDate startDate, LocalDate endDate, User user, Room room, BoatHouse boatHouse) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.user = user;
+        this.room=room;
         this.boatHouse = boatHouse;
-        this.reserveboatHouse = reserveboatHouse;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -78,11 +91,18 @@ public class Booking {
         this.boatHouse = boatHouse;
     }
 
-    public BoatHouse getReserveBoatHouse(){
-        return reserveboatHouse;
-    }
+    // public BoatHouse getReserveBoatHouse(){
+    //     return reserveboatHouse;
+    // }
 
-    public void setReserveBoatHouse(BoatHouse reserveboatHouse){
-        this.reserveboatHouse=reserveboatHouse;
+    // public void setReserveBoatHouse(BoatHouse reserveboatHouse){
+    //     this.reserveboatHouse=reserveboatHouse;
+    // }
+
+    public Room getRoom() {
+        return room;
+    }
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }

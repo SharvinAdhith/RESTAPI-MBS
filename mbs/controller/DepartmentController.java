@@ -15,37 +15,34 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
-    @GetMapping
+    @GetMapping("/getDept")
     public ResponseEntity<List<Department>> getAllDepartments() {
         return ResponseEntity.ok(departmentService.getAllDepartments());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Department> getDepartmentById(@PathVariable int id) {
-        return ResponseEntity.ok(departmentService.getDepartmentById(id));
-    }
-
-    @PostMapping
+    @PostMapping("/postDept")
     public ResponseEntity<Department> createDepartment(@RequestBody Department department) {
         return ResponseEntity.ok(departmentService.saveDepartment(department));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateDept/{id}")
     public ResponseEntity<Department> updateDepartment(@PathVariable int id, @RequestBody Department department) {
         return ResponseEntity.ok(departmentService.updateDepartment(id, department));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteDept/{id}")
     public ResponseEntity<String> deleteDepartment(@PathVariable int id) {
         departmentService.deleteDepartment(id);
         return ResponseEntity.ok("Department deleted successfully");
     }
 
-    @GetMapping("/paged")
-    public ResponseEntity<Page<Department>> getDepartmentsByPage(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "name") String sortBy) {
-        return ResponseEntity.ok(departmentService.getDepartmentsByPage(page, size, sortBy));
+    @GetMapping("/getDept/{id}")
+    public ResponseEntity<Department> getDepartmentById(@PathVariable int id) {
+        return ResponseEntity.ok(departmentService.getDepartmentById(id));
     }
+    @GetMapping("/pageDept")
+    public Page<Department> getDepartmentsByPage(@RequestParam(defaultValue = "0")int page, @RequestParam(defaultValue = "5")int size) {
+      return departmentService.getDepartmentsByPage(page, size);
+    }
+    
 }

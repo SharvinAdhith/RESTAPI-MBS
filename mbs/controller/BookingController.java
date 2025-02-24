@@ -1,9 +1,10 @@
 package com.example.mbs.controller;
+
 import com.example.mbs.entity.Booking;
 import com.example.mbs.service.BookingService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -11,39 +12,41 @@ import java.util.List;
 @RequestMapping("/bookings")
 public class BookingController {
     @Autowired
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
     }
 
-    @GetMapping("/getbk")
+    @GetMapping("/getbookings")
     public List<Booking> getAllBookings() {
         return bookingService.getAllBookings();
     }
 
-    @PostMapping("/postbk")
+    @PostMapping("/postbookings")
     public Booking createBooking(@RequestBody Booking bookings) {
         return bookingService.saveBooking(bookings);
     }
 
-    @GetMapping("/getbh/{id}")
-    public Booking getBookingByID(@PathVariable int id){
-        return bookingService.getBookingByID(id);
-    }
-
-    @PutMapping("/updatebk/{id}")
-    public Booking updateBookingDetails(@PathVariable int id, @RequestBody Booking bookings) {
-       return bookingService.updateBookingDetails(id, bookings);
+    @PutMapping("/updatebookings/{id}")
+    public  ResponseEntity<Booking> updateBookingDetails(@PathVariable int id, @RequestBody Booking bookings) {
+        Booking updatedBooking = bookingService.updateBookingDetails(id, bookings); // Call the service method to handle the update logic
+    return ResponseEntity.ok(updatedBooking);
     }
     
-    @DeleteMapping("/deletebk/{id}")
+    @DeleteMapping("/deletebookings/{id}")
     public String deleteBooking(@PathVariable int id){
         return bookingService.deleteBooking(id);
     }
 
-    @GetMapping("/pagebk")
+    @GetMapping("/getbookings/{id}")
+    public Booking getBookingByID(@PathVariable int id){
+        return bookingService.getBookingByID(id);
+    }
+
+    @GetMapping("/pagebookings")
     public Page<Booking> getBookingByPage(@RequestParam(defaultValue = "0")int page, @RequestParam(defaultValue = "5")int size) {
         return bookingService.getBookingByPage(page, size);
     }
+    
 }

@@ -2,13 +2,15 @@ package com.example.mbs.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Version;
+// import jakarta.persistence.Version;
 
 @Entity
 public class Owner {
@@ -20,12 +22,12 @@ public class Owner {
     private String contactInfo;
   
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<BoatHouse> boatHouses;
 
-    @Version
-    private int version;
+    // @Version
+    // private int version;
 
-    // Constructors, getters, and setters
     public Owner() {
     }
 

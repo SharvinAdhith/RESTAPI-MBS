@@ -1,22 +1,29 @@
 package com.example.mbs.service;
 
-import com.example.mbs.entity.BoatHouse;
-import com.example.mbs.entity.Booking;
-import com.example.mbs.repository.BoatHouseRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
+
+import com.example.mbs.entity.BoatHouse;
+import com.example.mbs.entity.Booking;
+import com.example.mbs.repository.BoatHouseRepository;
 
 @Service
 public class BoatHouseService {
 
     @Autowired
-    private BoatHouseRepository boatHouseRepository;
+    private final  BoatHouseRepository boatHouseRepository;
    
+    @Transactional
+    public List<BoatHouse> getAllBoatHouses() {
+        return boatHouseRepository.findAll(); // Ensures session is open
+    }
+
     public BoatHouseService(BoatHouseRepository boatHouseRepository) {
         this.boatHouseRepository = boatHouseRepository;
     }
@@ -28,21 +35,17 @@ public class BoatHouseService {
                 booking.setBoatHouse(boatHouse);
             }
         }
-        if (boatHouse.getReserveboatHouse() != null) {
-            for (Booking reservation : boatHouse.getReserveboatHouse()) {
-                reservation.setReserveBoatHouse(boatHouse);
-            }
-        }
+        // if (boatHouse.getReserveboatHouse() != null) {
+        //     for (Booking reservation : boatHouse.getReserveboatHouse()) {
+        //         reservation.setReserveBoatHouse(boatHouse);
+        //     }
+        // }
         return boatHouseRepository.save(boatHouse);
     }
 
     public BoatHouse updateBoatHouse(int id, BoatHouse boatHouse) {
         boatHouse.setID(id);
         return boatHouseRepository.save(boatHouse);
-    }
-
-    public List<BoatHouse> getAllBoatHouses() {
-        return boatHouseRepository.findAll();
     }
 
     public BoatHouse getByBoatHouseName(String name) {
@@ -57,5 +60,12 @@ public class BoatHouseService {
     public Page<BoatHouse> getBoatHouseByPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return boatHouseRepository.findAll(pageable);
+    }
+
+    public List<BoatHouse> findByAlphabet(String letter){
+        if(letter == null || letter.isEmpty()){
+            throw new IllegalArgumentException("Letter cannot be null or empty");
+        }
+        return boatHouseRepository.findByAlphabet(letter + "%");
     }
 }

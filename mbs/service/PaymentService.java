@@ -1,14 +1,16 @@
 package com.example.mbs.service;
 
-import com.example.mbs.entity.Payment;
-import com.example.mbs.repository.PaymentRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import java.util.List;
+import org.springframework.stereotype.Service;
+
+import com.example.mbs.entity.Payment;
+import com.example.mbs.repository.PaymentRepository;
 
 @Service
 public class PaymentService {
@@ -36,9 +38,12 @@ public class PaymentService {
     public void deletePayment(int id) {
         paymentRepository.deleteById(id);
     }
-
-    public Page<Payment> getPaymentsByPage(int page, int size, String sortBy) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+     public Page<Payment> getPaymentsByPage(int page, int size){
+        Pageable pageable=PageRequest.of(page, size);
         return paymentRepository.findAll(pageable);
+    }
+
+    public List<Payment> sortByPayment(){
+        return paymentRepository.findAll(Sort.by("amount").descending());
     }
 }
