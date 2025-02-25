@@ -2,10 +2,15 @@ package com.example.mbs.service;
 
 import com.example.mbs.entity.Booking;
 import com.example.mbs.repository.BookingRepository;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -22,8 +27,10 @@ public class BookingService {
         return bookingRepository.findAll();
     }
 
-    public Booking saveBooking(Booking bookings) {
-        return bookingRepository.save(bookings);
+    public ResponseEntity<String> saveBooking(@RequestBody Booking bookings) {
+        bookingRepository.save(bookings);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Booking is successfully done!");
     }
     
     public Booking getBookingByID(int id){

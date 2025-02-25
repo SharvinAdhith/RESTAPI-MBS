@@ -24,7 +24,7 @@ public class BookingController {
     }
 
     @PostMapping("/postbookings")
-    public Booking createBooking(@RequestBody Booking bookings) {
+    public ResponseEntity<String> createBooking(@RequestBody Booking bookings) {
         return bookingService.saveBooking(bookings);
     }
 

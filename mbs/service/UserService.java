@@ -49,6 +49,8 @@ public class UserService {
     public Page<User> getUserByPage(int page, int size){
         Pageable pageable=PageRequest.of(page, size);
         return userRepository.findAll(pageable);
+
+        
     }
 
     public List<User> getUserStartingWith(String letter) {

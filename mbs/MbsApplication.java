@@ -9,5 +9,4 @@ public class MbsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MbsApplication.class, args);
 	}
-
 }
