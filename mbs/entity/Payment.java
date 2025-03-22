@@ -1,5 +1,7 @@
 package com.example.mbs.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +17,7 @@ public class Payment {
     private double amount;
     private String method; 
 
-    @ManyToOne
-    @JoinColumn(name = "booking_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Booking booking;
 }

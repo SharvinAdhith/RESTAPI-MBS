@@ -1,5 +1,7 @@
 package com.example.mbs.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,8 +19,12 @@ public class Employee {
     private String address;
     private String phoneNo;
     private String gender;
-
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "employee_department", // Join table to associate Employee and Department
+        joinColumns = @JoinColumn(name = "emp_id"),
+        inverseJoinColumns = @JoinColumn(name = "dept_id")
+    )
+    private List<Department> department;
 }

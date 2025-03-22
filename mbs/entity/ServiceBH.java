@@ -14,8 +14,8 @@ public class ServiceBH {
     private int servid;
     private String description;
     private double cost;
-
+    
     @ManyToOne
-    @JoinColumn(name = "boathouse_id")
+    @JoinColumn(name = "boatHouse_id")
     private BoatHouse boatHouse;
 }

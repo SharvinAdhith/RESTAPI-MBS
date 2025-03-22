@@ -1,5 +1,7 @@
 package com.example.mbs.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,4 +17,7 @@ public class Department {
     private String name;
     private String deptname;
     private String deptHead;
+
+    @ManyToMany(mappedBy = "department")  // mappedBy points to the 'department' field in Employee
+    private List<Employee> employees;
 }
