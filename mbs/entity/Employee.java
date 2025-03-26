@@ -1,10 +1,8 @@
 package com.example.mbs.entity;
-
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,12 +17,9 @@ public class Employee {
     private String address;
     private String phoneNo;
     private String gender;
-    
-    @ManyToMany
-    @JoinTable(
-        name = "employee_department", // Join table to associate Employee and Department
-        joinColumns = @JoinColumn(name = "emp_id"),
-        inverseJoinColumns = @JoinColumn(name = "dept_id")
-    )
-    private List<Department> department;
+    @OneToOne(cascade = CascadeType.ALL) // Owning side
+    @JoinColumn(name = "department_id")  // Foreign key in Employee table
+    @JsonManagedReference
+    @JsonIgnore
+    private Department department;
 }

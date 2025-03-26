@@ -37,7 +37,8 @@ public class UserController {
     public User createUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
-
+    
+  
     @PutMapping("/updateusers/{id}")
     public User updateUser(@PathVariable int id, @RequestBody User user) {
        return userService.updateUser(id, user);

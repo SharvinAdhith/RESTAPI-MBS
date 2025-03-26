@@ -1,7 +1,7 @@
 package com.example.mbs.controller;
-
 import com.example.mbs.entity.Booking;
 import com.example.mbs.service.BookingService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,6 @@ import java.util.List;
 public class BookingController {
     @Autowired
     private final BookingService bookingService;
-
     public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
     }
@@ -28,6 +27,7 @@ public class BookingController {
         return bookingService.saveBooking(bookings);
     }
 
+    @Transactional
     @PutMapping("/updatebookings/{id}")
     public  ResponseEntity<Booking> updateBookingDetails(@PathVariable int id, @RequestBody Booking bookings) {
         Booking updatedBooking = bookingService.updateBookingDetails(id, bookings); // Call the service method to handle the update logic

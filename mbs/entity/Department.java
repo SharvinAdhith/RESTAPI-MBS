@@ -1,10 +1,8 @@
 package com.example.mbs.entity;
-
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +15,8 @@ public class Department {
     private String name;
     private String deptname;
     private String deptHead;
-
-    @ManyToMany(mappedBy = "department")  // mappedBy points to the 'department' field in Employee
-    private List<Employee> employees;
+    @OneToOne(mappedBy = "department")  // Non-owning side
+    @JsonBackReference
+    @JsonIgnore
+    private Employee employee;
 }

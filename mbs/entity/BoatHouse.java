@@ -1,20 +1,13 @@
 package com.example.mbs.entity;
-
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 @Entity
 @Table(name = "boat_house")
 public class BoatHouse {
@@ -23,33 +16,25 @@ public class BoatHouse {
     private int id;
     private String location;
     private String amenities;
+    @Column(name = "name")
     private String name;
-
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="owner_id")
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
     @JsonBackReference
     private Owner owner;
-
-    @OneToMany(mappedBy = "boatHouse", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Room> rooms;
-
-    @OneToMany(mappedBy = "boatHouse", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Booking> bookings;
+    private String roomdetails;
+    private double price;
     public BoatHouse() {}
-
-    public BoatHouse(int id, String name, String location, String amenities, Owner owner, 
-                     List<Booking> bookings, List<Room> rooms) {
+    public BoatHouse(int id, String name, String location, String amenities, Owner owner,
+                String roomdetails,double price) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.amenities = amenities;
         this.owner = owner;
-        this.rooms = rooms;
-        this.bookings = bookings;
+        this.roomdetails=roomdetails;
+        this.price=price;
     }
-
     public int getId(){
         return id;
     }
@@ -80,16 +65,16 @@ public class BoatHouse {
     public void setOwner(Owner owner){
         this.owner = owner;
     }
-    public List<Booking> getBookings(){
-        return bookings;
+    public String getroomdetails(){
+        return roomdetails;
     }
-    public void setBookings(List<Booking> bookings){
-        this.bookings = bookings;
+    public void setroomdetails(String roomdetails){
+        this.roomdetails = roomdetails;
     }
-    public List<Room> getRooms(){
-        return rooms; 
+    public Double getPrice(){
+        return price;
     }
-    public void setRooms(List<Room> rooms){
-        this.rooms= rooms;
+    public void setPrice(Double price){
+        this.price = price;
     }
 }
