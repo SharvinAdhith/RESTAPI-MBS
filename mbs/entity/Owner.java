@@ -1,7 +1,7 @@
 package com.example.mbs.entity;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+// import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -20,9 +20,8 @@ public class Owner {
     private String ownerType; //e.g., "Individual, "Company"
     private int numberOfBoatHouses;
     private String status; // e.g., "Active", "Inactive", "Suspended"
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
-    @JsonIgnore
     private List<BoatHouse> boatHouses=new ArrayList<>();
     public Owner() {
     }
@@ -87,5 +86,14 @@ public class Owner {
             boathouse.setOwner(this);
         }
         this.boatHouses = boatHouses;
+    }
+    public void addBoatHouse(BoatHouse boatHouse) {
+        boatHouses.add(boatHouse);
+        boatHouse.setOwner(this);
+    }
+    
+    public void removeBoatHouse(BoatHouse boatHouse) {
+        boatHouses.remove(boatHouse);
+        boatHouse.setOwner(null);
     }
 }

@@ -2,13 +2,13 @@
 package com.example.mbs.entity;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 // import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,13 +26,14 @@ public class User {
     private String contactnumber;
 
     private String paymentmethod;
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE},  fetch = FetchType.EAGER)
     @JoinTable(
         name = "user_service",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "service_id")
     )
-    @JsonIgnore
+    // @JsonIgnore
+    @JsonIgnoreProperties("users") 
     private Set<ServiceBH> services = new HashSet<>();
 
     public User() {}
@@ -93,5 +94,13 @@ public class User {
 
     public void setServices(Set<ServiceBH> services) {
         this.services = services; 
+    }
+    public void addService(ServiceBH service) {
+        this.services.add(service);
+        service.getUsers().add(this);
+    }
+    public void removeService(ServiceBH service) {
+        this.services.remove(service);
+        service.getUsers().remove(this);
     }
 }

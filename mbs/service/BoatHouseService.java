@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.mbs.entity.BoatHouse;
+import com.example.mbs.exception.ResourceNotFoundException;
 import com.example.mbs.repository.BoatHouseRepository;
 @Service
 public class BoatHouseService {
@@ -44,4 +45,9 @@ public class BoatHouseService {
         }
         return boatHouseRepository.findByAlphabet(letter);
     }
+    public BoatHouse getBoatHouseById(int id) {
+        return boatHouseRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("BoatHouse not found with id: " + id));
+    }
+
 }

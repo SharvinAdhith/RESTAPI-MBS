@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,15 +26,19 @@ public class Booking {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
     @DateTimeFormat(pattern = "MM/dd/yyyy")
     private LocalDate endDate;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")  // Foreign key column in Booking table
-    @JsonBackReference
+    @JsonBackReference("room-bookings")
     private Room room;
+
     private String boatHouse; 
     private String bookingId;
+
     @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("booking-payment")
     private Payment payment;
+
     public Booking() {}
     public Booking(int id, LocalDate startDate, LocalDate endDate, Room room, 
             String boatHouse, Payment payment,String bookingId) {

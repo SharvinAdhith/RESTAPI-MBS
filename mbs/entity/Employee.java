@@ -1,6 +1,7 @@
 package com.example.mbs.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+// import com.fasterxml.jackson.annotation.JsonIgnore;
+// import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
@@ -19,7 +20,6 @@ public class Employee {
     private String gender;
     @OneToOne(cascade = CascadeType.ALL) // Owning side
     @JoinColumn(name = "department_id")  // Foreign key in Employee table
-    @JsonManagedReference
-    @JsonIgnore
+    @JsonIgnoreProperties({"employee"}) // Break circular reference
     private Department department;
 }

@@ -1,6 +1,6 @@
 package com.example.mbs.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+// import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
@@ -17,6 +17,5 @@ public class Department {
     private String deptHead;
     @OneToOne(mappedBy = "department")  // Non-owning side
     @JsonBackReference
-    @JsonIgnore
     private Employee employee;
 }

@@ -26,6 +26,6 @@ public class Payment {
     private String transactionID;
     @OneToOne
     @JoinColumn(name = "booking_id")  // Foreign key in Payment table
-    @JsonBackReference
+    @JsonBackReference("booking-payment")
     private Booking booking;
 }

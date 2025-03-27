@@ -1,8 +1,6 @@
 package com.example.mbs.controller;
-
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.mbs.entity.User;
 import com.example.mbs.service.UserService;
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -28,6 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    
     @GetMapping("/getusers")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
@@ -73,5 +70,12 @@ public class UserController {
     public List<User> sortByUser() {
         return userService.sortByUser();
     }
-    
+    @PostMapping("/{userId}/services/{serviceId}")
+    public User addServiceToUser(@PathVariable int userId, @PathVariable int serviceId) {
+        return userService.addServiceToUser(userId, serviceId);
+    }
+    @DeleteMapping("/{userId}/services/{serviceId}")
+    public User removeServiceFromUser(@PathVariable int userId, @PathVariable int serviceId) {
+        return userService.removeServiceFromUser(userId, serviceId);
+    }
 }
